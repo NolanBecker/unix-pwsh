@@ -1,5 +1,5 @@
 # Check Internet and exit if it takes longer than 1 second
-$canConnectToGitHub = Test-Connection github.com -Count 1 -Quiet -BufferSize 32
+$canConnectToGitHub = Test-Connection github.com -Count 1 -Quiet -TimeoutSeconds 1
 $configPath = "$HOME\pwsh_custom_config.yml"
 $githubUser = "NolanBecker"
 $name= "Nolan"
@@ -10,7 +10,7 @@ $fontFileName = "FiraCodeNerdFontMono-Regular.ttf" # Put here the font file that
 $font_folder = "FiraCode" # Put here the name of the zip folder, but without the .zip extension.
 
 function Initialize-DevEnv {
-    if (-not $global:scanConnectToGitHub) {
+    if (-not $global:canConnectToGitHub) {
         Write-Host "❌ Skipping dev-environment initialization due to GitHub.com not responding within 1 second." -ForegroundColor Red
         return
     }
@@ -102,7 +102,6 @@ function Get-ConfigValue {
     return $config[$Key]
 }
 
-
 function Initialize-Module {
     param (
         [string]$moduleName
@@ -127,8 +126,6 @@ function Initialize-Keys {
     }
 }
 
-
-
 # -------------
 # Run section
 
@@ -137,12 +134,14 @@ Write-Host "Welcome $name ⚡" -ForegroundColor DarkCyan
 Write-Host ""
 #All Colors: Black, Blue, Cyan, DarkBlue, DarkCyan, DarkGray, DarkGreen, DarkMagenta, DarkRed, DarkYellow, Gray, Green, Magenta, Red, White, Yellow.
 
+
 Install-Config
 
 # Try to import MS PowerToys WinGetCommandNotFound
 Import-Module -Name Microsoft.WinGet.CommandNotFound > $null 2>&1
 if (-not $?) { Write-Host "💭 Make sure to install WingetCommandNotFound by MS PowerToys" -ForegroundColor Yellow }
 
+Clear-Host
 # Inject OhMyPosh
 oh-my-posh init pwsh --config $OhMyPoshConfig | Invoke-Expression
 
