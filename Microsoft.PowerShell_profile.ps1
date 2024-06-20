@@ -1,8 +1,8 @@
 # Check Internet and exit if it takes longer than 1 second
-$canConnectToGitHub = Test-Connection github.com -Count 1 -Quiet -TimeoutSeconds 1
+$canConnectToGitHub = Test-Connection github.com -Count 1 -Quiet -BufferSize 32
 $configPath = "$HOME\pwsh_custom_config.yml"
 $githubUser = "NolanBecker"
-$name= ""
+$name= "Nolan"
 $OhMyPoshConfig = "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/montys.omp.json"
 $font="FiraCode" # Font-Display and variable Name, name the same as font_folder
 $font_url = "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/FiraCode.zip" # Put here the URL of the font file that should be installed
