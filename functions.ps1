@@ -235,3 +235,17 @@ function ssh-copy-key {
     $sshCommand = "cat $pubKeyPath | ssh $user@$ip 'cat >> ~/.ssh/authorized_keys'"
     Invoke-Expression $sshCommand
 }
+
+function SyncAD {
+    Invoke-Command -ComputerName DC-01 -ScriptBlock {
+        Start-ADSyncSyncCycle -PolicyType Delta
+    }
+}
+Set-Alias -Name adsync -Value SyncAD
+
+function SyncKnowBe4 {
+    Invoke-Command -ComputerName DC-02 -ScriptBlock {
+        Restart-Service -Name "Active Directory Integration Sync Service"
+    }
+}
+Set-Alias -Name knowbe4 -Value SyncKnowBe4
